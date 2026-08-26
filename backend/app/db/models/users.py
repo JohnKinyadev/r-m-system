@@ -18,4 +18,4 @@ class User(Base):
     role = relationship("Role", back_populates="users")
     notifications = relationship("Notification", back_populates="user")
     permissions = relationship("WorkerPermission", back_populates="user", cascade="all, delete-orphan")
-    animal_assignments = relationship("AnimalAssignment", back_populates="worker", cascade="all, delete-orphan")
+    property_assignments = relationship("PropertyAssignment", back_populates="caretaker", cascade="all, delete-orphan")

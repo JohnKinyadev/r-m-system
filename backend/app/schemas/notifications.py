@@ -10,7 +10,8 @@ class NotificationRead(BaseModel):
     title: str
     message: str
     is_read: bool
-    related_animal_id: Optional[int]
+    related_entity_type: Optional[str] = None
+    related_entity_id: Optional[int] = None
     created_at: datetime
 
     model_config = {"from_attributes": True}

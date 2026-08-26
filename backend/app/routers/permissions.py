@@ -32,8 +32,8 @@ def set_permissions(
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    if user.role.name == "farm_owner":
-        raise HTTPException(status_code=400, detail="Owners always have full access — no per-module permissions needed")
+    if user.role.name == "landlord":
+        raise HTTPException(status_code=400, detail="Landlords always have full access - no per-module permissions needed")
 
     invalid = [m for m in payload.modules if m not in AVAILABLE_MODULES]
     if invalid:

@@ -1,76 +1,156 @@
+from datetime import date, timedelta
+from decimal import Decimal
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from datetime import date
 from app.db.session import get_db
-from app.db.models.animals import Animal, AnimalStatus
-from app.db.models.health_logs import HealthLog
-from app.db.models.feed_logs import FeedLog, FeedDistribution
-from app.db.models.births import Birth
-from app.db.models.mating_events import MatingEvent
-from app.db.models.feed_types import FeedType
+from app.db.models.expenses import Expense
+from app.db.models.ledger_entries import LedgerEntry
+from app.db.models.maintenance_requests import MaintenanceRequest, MaintenanceStatus
+from app.db.models.payments import Payment, PaymentStatus
+from app.db.models.properties import Property
+from app.db.models.tenancies import Tenancy, TenancyStatus
+from app.db.models.tenants import Tenant, TenantStatus
+from app.db.models.units import Unit, UnitStatus
 from app.core.dependencies import get_current_user
 
 router = APIRouter(prefix="/api/reports", tags=["reports"])
 
 
+def _money(value) -> Decimal:
+    return value or Decimal("0")
+
+
 @router.get("/dashboard")
 def dashboard_summary(db: Session = Depends(get_db), _=Depends(get_current_user)):
-    total_animals = db.query(Animal).filter(Animal.status == AnimalStatus.active).count()
-    sold = db.query(Animal).filter(Animal.status == AnimalStatus.sold).count()
-    deceased = db.query(Animal).filter(Animal.status == AnimalStatus.deceased).count()
-    total_births_this_month = (
-        db.query(Birth)
+    today = date.today()
+    month = today.month
+    year = today.year
+
+    active_tenancies = db.query(Tenancy).filter(Tenancy.status.in_([TenancyStatus.active, TenancyStatus.notice_given])).all()
+    expected_rent = sum((t.monthly_rent for t in active_tenancies), Decimal("0"))
+    collected = _money(
+        db.query(func.coalesce(func.sum(Payment.amount), 0))
         .filter(
-            func.extract("month", Birth.birth_date) == date.today().month,
-            func.extract("year", Birth.birth_date) == date.today().year,
+            Payment.status == PaymentStatus.confirmed,
+            func.extract("month", Payment.payment_date) == month,
+            func.extract("year", Payment.payment_date) == year,
         )
-        .count()
+        .scalar()
     )
-    upcoming_births = (
-        db.query(MatingEvent)
+    expenses = _money(
+        db.query(func.coalesce(func.sum(Expense.amount), 0))
         .filter(
-            MatingEvent.expected_birth_date >= date.today(),
-            MatingEvent.birth == None,
+            func.extract("month", Expense.expense_date) == month,
+            func.extract("year", Expense.expense_date) == year,
         )
-        .count()
+        .scalar()
     )
-    feed_stocks = db.query(FeedType).all()
-    low_stock = [f.name for f in feed_stocks if f.current_stock <= f.low_stock_threshold]
+
+    balances = []
+    for tenancy in active_tenancies:
+        balance = _money(
+            db.query(func.coalesce(func.sum(LedgerEntry.debit - LedgerEntry.credit), 0))
+            .filter(LedgerEntry.tenancy_id == tenancy.id)
+            .scalar()
+        )
+        balances.append((tenancy, balance))
+
+    outstanding = sum((balance for _, balance in balances if balance > 0), Decimal("0"))
+    overdue = [
+        {"tenant": t.tenant.full_name, "unit": t.unit.unit_number, "balance": balance}
+        for t, balance in balances
+        if balance > 0 and t.rent_due_day < today.day
+    ]
+    partial = [
+        {"tenant": t.tenant.full_name, "unit": t.unit.unit_number, "balance": balance}
+        for t, balance in balances
+        if balance > 0
+    ]
+
+    property_count = db.query(Property).count()
+    unit_count = db.query(Unit).count()
+    occupied_units = db.query(Unit).filter(Unit.status.in_([UnitStatus.occupied, UnitStatus.notice_given])).count()
+    vacant_units = db.query(Unit).filter(Unit.status == UnitStatus.vacant).count()
+    open_maintenance = db.query(MaintenanceRequest).filter(
+        MaintenanceRequest.status.in_([MaintenanceStatus.open, MaintenanceStatus.assigned, MaintenanceStatus.in_progress])
+    ).count()
+    expiring_soon = db.query(Tenancy).filter(
+        Tenancy.status == TenancyStatus.active,
+        Tenancy.end_date != None,
+        Tenancy.end_date >= today,
+        Tenancy.end_date <= today + timedelta(days=30),
+    ).count()
+    collection_rate = round(float((collected / expected_rent) * 100), 1) if expected_rent else 0
 
     return {
-        "active_animals": total_animals,
-        "sold_animals": sold,
-        "deceased_animals": deceased,
-        "births_this_month": total_births_this_month,
-        "upcoming_births": upcoming_births,
-        "low_stock_feed_types": low_stock,
+        "period": today.strftime("%B %Y"),
+        "expected_rent": expected_rent,
+        "collected_rent": collected,
+        "outstanding_rent": outstanding,
+        "expenses": expenses,
+        "net_income": collected - expenses,
+        "collection_rate": collection_rate,
+        "properties": property_count,
+        "units": unit_count,
+        "occupied_units": occupied_units,
+        "vacant_units": vacant_units,
+        "active_tenants": db.query(Tenant).filter(Tenant.status == TenantStatus.active).count(),
+        "overdue_tenants": len(overdue),
+        "open_maintenance": open_maintenance,
+        "leases_expiring_soon": expiring_soon,
+        "needs_attention": [
+            {"label": "Tenants overdue", "count": len(overdue), "severity": "red"},
+            {"label": "Partial or outstanding balances", "count": len(partial), "severity": "amber"},
+            {"label": "Open maintenance requests", "count": open_maintenance, "severity": "orange"},
+            {"label": "Vacant units", "count": vacant_units, "severity": "blue"},
+            {"label": "Leases expiring soon", "count": expiring_soon, "severity": "yellow"},
+        ],
     }
 
 
-@router.get("/herd-health")
-def herd_health_summary(db: Session = Depends(get_db), _=Depends(get_current_user)):
-    logs = db.query(HealthLog).all()
-    by_type: dict = {}
-    for log in logs:
-        key = log.log_type.value
-        by_type[key] = by_type.get(key, 0) + 1
-    return {"total_logs": len(logs), "by_type": by_type}
+@router.get("/arrears")
+def arrears_report(db: Session = Depends(get_db), _=Depends(get_current_user)):
+    rows = []
+    tenancies = db.query(Tenancy).filter(Tenancy.status.in_([TenancyStatus.active, TenancyStatus.notice_given])).all()
+    for tenancy in tenancies:
+        balance = _money(
+            db.query(func.coalesce(func.sum(LedgerEntry.debit - LedgerEntry.credit), 0))
+            .filter(LedgerEntry.tenancy_id == tenancy.id)
+            .scalar()
+        )
+        if balance > 0:
+            rows.append({
+                "tenancy_id": tenancy.id,
+                "tenant": tenancy.tenant.full_name,
+                "property": tenancy.unit.property.name,
+                "unit": tenancy.unit.unit_number,
+                "balance": balance,
+                "rent_due_day": tenancy.rent_due_day,
+            })
+    return sorted(rows, key=lambda r: r["balance"], reverse=True)
 
 
-@router.get("/feed-consumption")
-def feed_consumption_report(db: Session = Depends(get_db), _=Depends(get_current_user)):
+@router.get("/property-performance")
+def property_performance_report(db: Session = Depends(get_db), _=Depends(get_current_user)):
     rows = (
-        db.query(FeedDistribution.animal_id, func.sum(FeedDistribution.quantity).label("total"))
-        .group_by(FeedDistribution.animal_id)
+        db.query(
+            Property.id,
+            Property.name,
+            func.count(Unit.id).label("units"),
+            func.sum(Unit.monthly_rent).label("monthly_rent"),
+        )
+        .outerjoin(Unit, Unit.property_id == Property.id)
+        .group_by(Property.id, Property.name)
         .all()
     )
-    return [{"animal_id": r.animal_id, "total_consumed": r.total} for r in rows]
-
-
-@router.get("/birth-mortality")
-def birth_mortality_report(db: Session = Depends(get_db), _=Depends(get_current_user)):
-    births = db.query(Birth).count()
-    deceased = db.query(Animal).filter(Animal.status == AnimalStatus.deceased).count()
-    sold = db.query(Animal).filter(Animal.status == AnimalStatus.sold).count()
-    return {"total_births_recorded": births, "deceased": deceased, "sold": sold}
+    return [
+        {
+            "property_id": row.id,
+            "property": row.name,
+            "units": row.units,
+            "monthly_rent": row.monthly_rent or 0,
+        }
+        for row in rows
+    ]

@@ -49,9 +49,9 @@ class UserRead(UserBase):
     @field_serializer("permissions")
     def serialize_permissions(self, perms: List[Any]) -> List[str]:
         from app.db.models.permissions import AVAILABLE_MODULES
-        # Farm owners always get all modules in the response
+        # Landlords always get all modules in the response
         role_name = self.role.name if self.role else ""
-        if role_name == "farm_owner":
+        if role_name == "landlord":
             return AVAILABLE_MODULES
         # Workers get the list of their granted modules
         result = []

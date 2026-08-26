@@ -2,14 +2,16 @@ from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from app.db.base import Base
 
-# Available modules that can be granted to farm workers.
-# Farm owners always have all modules; this table only applies to workers.
+# Available modules that can be granted to caretakers.
+# Landlords always have all modules; this table only applies to caretakers.
 AVAILABLE_MODULES = [
-    "animals",
-    "livestock_types",
-    "health",
-    "feed",
-    "mating",
+    "properties",
+    "units",
+    "tenants",
+    "rent",
+    "payments",
+    "maintenance",
+    "expenses",
     "reports",
 ]
 
