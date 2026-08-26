@@ -4,12 +4,12 @@ import { isOnline } from '@/composables/useOnlineStatus'
 import { getPendingMutations, deleteMutation, cacheAll, upsertCached, kvSet } from '@/db/offlineDb'
 import api from '@/api/index'
 
-const CACHE_TTL_MS = 5 * 60 * 1000  // don't re-fetch if refreshed within last 5 min
+const CACHE_TTL_MS = 5 * 60 * 1000
 
 export const useSyncStore = defineStore('sync', () => {
-  const syncing       = ref(false)
-  const pendingCount  = ref(0)
-  const lastSynced    = ref(null)
+  const syncing = ref(false)
+  const pendingCount = ref(0)
+  const lastSynced = ref(null)
   const lastCacheTime = ref(null)
 
   async function refreshPendingCount() {
@@ -29,24 +29,23 @@ export const useSyncStore = defineStore('sync', () => {
           await deleteMutation(m.id)
           replayed++
         } catch (err) {
-          // 4xx = permanent failure — discard. 5xx / network = keep for next cycle.
           if (err.response?.status >= 400 && err.response?.status < 500) {
             await deleteMutation(m.id)
           }
         }
       }
-      await refreshCaches(true) // force after sync to pick up server-created records
+      await refreshCaches(true)
       lastSynced.value = new Date()
 
       if (replayed > 0) {
         try {
           const { useToastStore } = await import('@/stores/toast')
           useToastStore().success(
-            'Changes synced!',
+            'Changes synced',
             `${replayed} offline change${replayed !== 1 ? 's' : ''} saved to the server.`,
-            '☁️',
+            'OK',
           )
-        } catch { /* */ }
+        } catch { /* empty */ }
       }
     } finally {
       syncing.value = false
@@ -54,10 +53,6 @@ export const useSyncStore = defineStore('sync', () => {
     }
   }
 
-  /**
-   * Pre-populate every IndexedDB store used by the offline GET map.
-   * Throttled to once per CACHE_TTL_MS unless `force` is true.
-   */
   async function refreshCaches(force = false) {
     if (!isOnline.value) return
     const now = Date.now()
@@ -65,43 +60,45 @@ export const useSyncStore = defineStore('sync', () => {
 
     try {
       const [
-        animals, feedTypes, livestockTypes, notifications,
-        matingEvents, births,
-        dashboard, herdHealth, birthMortality, feedConsumption,
+        properties, units, tenants, tenancies,
+        payments, maintenance, expenses, notifications,
+        dashboard, arrears, propertyPerformance,
       ] = await Promise.all([
-        api.get('/api/animals').then(r => r.data),
-        api.get('/api/feed/types').then(r => r.data),
-        api.get('/api/livestock-types').then(r => r.data),
+        api.get('/api/properties').then(r => r.data),
+        api.get('/api/units').then(r => r.data),
+        api.get('/api/tenants').then(r => r.data),
+        api.get('/api/tenancies').then(r => r.data),
+        api.get('/api/payments').then(r => r.data),
+        api.get('/api/maintenance').then(r => r.data),
+        api.get('/api/expenses').then(r => r.data),
         api.get('/api/notifications').then(r => r.data),
-        api.get('/api/mating').then(r => r.data),
-        api.get('/api/mating/births').then(r => r.data),
         api.get('/api/reports/dashboard').then(r => r.data),
-        api.get('/api/reports/herd-health').then(r => r.data),
-        api.get('/api/reports/birth-mortality').then(r => r.data),
-        api.get('/api/reports/feed-consumption').then(r => r.data),
+        api.get('/api/reports/arrears').then(r => r.data),
+        api.get('/api/reports/property-performance').then(r => r.data),
       ])
 
       await Promise.all([
-        cacheAll('animals',         animals),
-        cacheAll('feed_types',      feedTypes),
-        cacheAll('livestock_types', livestockTypes),
-        cacheAll('notifications',   notifications),
-        cacheAll('mating_events',   matingEvents),
-        cacheAll('births',          births),
-        kvSet('reports_dashboard',        dashboard),
-        kvSet('reports_herd_health',      herdHealth),
-        kvSet('reports_birth_mortality',  birthMortality),
-        kvSet('reports_feed_consumption', feedConsumption),
+        cacheAll('properties', properties),
+        cacheAll('units', units),
+        cacheAll('tenants', tenants),
+        cacheAll('tenancies', tenancies),
+        cacheAll('payments', payments),
+        cacheAll('maintenance', maintenance),
+        cacheAll('expenses', expenses),
+        cacheAll('notifications', notifications),
+        kvSet('reports_dashboard', dashboard),
+        kvSet('reports_arrears', arrears),
+        kvSet('reports_property_performance', propertyPerformance),
       ])
 
       lastCacheTime.value = Date.now()
     } catch {
-      // Stale cache is better than crashing — fail silently
+      // Existing cached data is preferable to crashing the app while offline.
     }
   }
 
-  async function updateAnimalCache(animal) {
-    await upsertCached('animals', animal)
+  async function updateUnitCache(unit) {
+    await upsertCached('units', unit)
   }
 
   watch(isOnline, async (online) => {
@@ -110,10 +107,10 @@ export const useSyncStore = defineStore('sync', () => {
     } else {
       try {
         const { useToastStore } = await import('@/stores/toast')
-        useToastStore().warning("You're offline", 'Changes will sync automatically when reconnected.', '📶')
-      } catch { /* */ }
+        useToastStore().warning("You're offline", 'Changes will sync automatically when reconnected.', 'OFF')
+      } catch { /* empty */ }
     }
   })
 
-  return { syncing, pendingCount, lastSynced, syncNow, refreshCaches, refreshPendingCount, updateAnimalCache }
+  return { syncing, pendingCount, lastSynced, syncNow, refreshCaches, refreshPendingCount, updateUnitCache }
 })

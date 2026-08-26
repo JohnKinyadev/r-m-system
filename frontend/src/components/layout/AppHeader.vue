@@ -30,7 +30,7 @@
           class="absolute right-0 top-11 z-50 w-72 bg-white border border-gray-200 rounded-xl shadow-lg p-4 text-sm"
         >
           <div class="flex items-center justify-between mb-2">
-            <span class="font-semibold text-gray-800">Install FarmManager</span>
+            <span class="font-semibold text-gray-800">Install RentManager</span>
             <button @click="showInstructions = false" class="text-gray-400 hover:text-gray-600">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -151,14 +151,21 @@ const installLabel = computed(() => {
 })
 
 const titles = {
-  dashboard: 'Dashboard', animals: 'Animals', 'animals-new': 'Add Animal',
-  'animal-detail': 'Animal Record', 'animal-edit': 'Edit Animal',
-  'livestock-types': 'Livestock Types', feed: 'Feed Management',
-  health: 'Health Logs', mating: 'Mating & Births', reports: 'Reports',
-  notifications: 'Notifications', workers: 'Workers', profile: 'My Profile',
+  dashboard: 'Dashboard',
+  properties: 'Properties',
+  units: 'Units',
+  tenants: 'Tenants',
+  rent: 'Rent Ledger',
+  payments: 'Payments',
+  maintenance: 'Maintenance',
+  expenses: 'Expenses',
+  reports: 'Reports',
+  notifications: 'Notifications',
+  caretakers: 'Caretakers',
+  profile: 'My Profile',
 }
 
-const pageTitle = computed(() => titles[route.name] || 'Farm Manager')
+const pageTitle = computed(() => titles[route.name] || 'Rent Manager')
 const initials = computed(() => {
   const name = auth.user?.full_name || ''
   return name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()

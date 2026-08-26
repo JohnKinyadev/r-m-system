@@ -9,9 +9,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'prompt',
       manifest: {
-        name: 'Farm Management System',
-        short_name: 'FarmManager',
-        description: 'Manage livestock, feed, health records and more',
+        name: 'Rental Management System',
+        short_name: 'RentManager',
+        description: 'Manage properties, tenants, rent, payments and maintenance',
         theme_color: '#1a5c2a',
         background_color: '#f9fafb',
         display: 'standalone',
@@ -28,7 +28,7 @@ export default defineConfig({
           // Cache GET API responses with NetworkFirst so fresh data is preferred
           // but cached data is served when offline
           {
-            urlPattern: /\/api\/(animals|feed\/types|livestock-types|notifications|reports\/dashboard)(.*)/,
+            urlPattern: /\/api\/(properties|units|tenants|tenancies|payments|maintenance|expenses|notifications|reports\/dashboard)(.*)/,
             handler: 'NetworkFirst',
             options: {
               cacheName: 'api-reads-cache',
@@ -37,9 +37,9 @@ export default defineConfig({
               cacheableResponse: { statuses: [0, 200] },
             },
           },
-          // Health/mating/reports — stale-while-revalidate for moderate freshness
+          // Reports and operational reads use stale-while-revalidate for moderate freshness
           {
-            urlPattern: /\/api\/(health|mating|reports)(.*)/,
+            urlPattern: /\/api\/(ledger|reports)(.*)/,
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'api-secondary-cache',

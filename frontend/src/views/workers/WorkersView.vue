@@ -1,12 +1,12 @@
 <template>
   <div class="space-y-4">
     <div class="flex justify-between items-center">
-      <p class="text-sm text-gray-500">{{ workers.length }} worker(s)</p>
-      <BaseButton @click="openCreate">+ Add Worker</BaseButton>
+      <p class="text-sm text-gray-500">{{ workers.length }} caretaker(s)</p>
+      <BaseButton @click="openCreate">+ Add Caretaker</BaseButton>
     </div>
 
     <div v-if="loading" class="text-center py-12 text-gray-400">Loading…</div>
-    <div v-else-if="workers.length === 0" class="card text-center py-8 text-gray-400">No workers yet.</div>
+    <div v-else-if="workers.length === 0" class="card text-center py-8 text-gray-400">No caretakers yet.</div>
 
     <div v-else class="space-y-3">
       <div v-for="w in workers" :key="w.id" class="card space-y-3">
@@ -55,7 +55,7 @@
     </div>
 
     <!-- Create worker modal -->
-    <BaseModal :open="showModal" title="Add Farm Worker" @close="showModal = false">
+    <BaseModal :open="showModal" title="Add Caretaker" @close="showModal = false">
       <form @submit.prevent="submit" class="space-y-3">
         <BaseAlert :message="error" type="error" />
         <BaseInput v-model="form.full_name" label="Full Name" required />
@@ -74,7 +74,7 @@
           </div>
         </div>
 
-        <BaseButton type="submit" :loading="saving" class="w-full">Create Worker Account</BaseButton>
+        <BaseButton type="submit" :loading="saving" class="w-full">Create Caretaker Account</BaseButton>
       </form>
     </BaseModal>
   </div>
@@ -90,12 +90,14 @@ import BaseInput from '@/components/ui/BaseInput.vue'
 import BaseAlert from '@/components/ui/BaseAlert.vue'
 
 const MODULES = [
-  { key: 'animals',         label: 'Animals' },
-  { key: 'livestock_types', label: 'Livestock Types' },
-  { key: 'health',          label: 'Health Records' },
-  { key: 'feed',            label: 'Feed Management' },
-  { key: 'mating',          label: 'Mating & Births' },
-  { key: 'reports',         label: 'Reports' },
+  { key: 'properties',  label: 'Properties' },
+  { key: 'units',       label: 'Units' },
+  { key: 'tenants',     label: 'Tenants' },
+  { key: 'rent',        label: 'Rent Ledger' },
+  { key: 'payments',    label: 'Payments' },
+  { key: 'maintenance', label: 'Maintenance' },
+  { key: 'expenses',    label: 'Expenses' },
+  { key: 'reports',     label: 'Reports' },
 ]
 
 const users        = ref([])
@@ -109,7 +111,7 @@ const workerPerms  = ref({})
 
 const form = ref({ full_name: '', email: '', password: '', modules: [] })
 
-const workers = computed(() => users.value.filter(u => u.role.name === 'farm_worker'))
+const workers = computed(() => users.value.filter(u => u.role.name === 'caretaker'))
 
 const initials = (name) => name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
 
@@ -152,7 +154,7 @@ function openCreate() {
 async function submit() {
   saving.value = true; error.value = ''
   try {
-    const workerRole = roles.value.find(r => r.name === 'farm_worker')
+    const workerRole = roles.value.find(r => r.name === 'caretaker')
     const created = await createUser({ full_name: form.value.full_name, email: form.value.email, password: form.value.password, role_id: workerRole.id })
     if (form.value.modules.length) {
       await setWorkerPermissions(created.id, form.value.modules)

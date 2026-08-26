@@ -1,18 +1,17 @@
 import { openDB } from 'idb'
 
-const DB_NAME = 'farmmanager-offline'
-const DB_VERSION = 2
+const DB_NAME = 'rentmanager-offline'
+const DB_VERSION = 1
 
 let _db = null
 
 export async function getDb() {
   if (_db) return _db
   _db = await openDB(DB_NAME, DB_VERSION, {
-    upgrade(db, oldVersion) {
-      // ── v1 stores (created fresh on new installs, preserved on upgrades) ──
+    upgrade(db) {
       for (const store of [
-        'animals', 'livestock_types', 'feed_types',
-        'health_logs', 'mating_events', 'notifications',
+        'properties', 'units', 'tenants', 'tenancies',
+        'payments', 'maintenance', 'expenses', 'notifications',
       ]) {
         if (!db.objectStoreNames.contains(store)) {
           db.createObjectStore(store, { keyPath: 'id' })
@@ -25,24 +24,13 @@ export async function getDb() {
       if (!db.objectStoreNames.contains('sync_meta')) {
         db.createObjectStore('sync_meta')
       }
-
-      // ── v2 additions ──────────────────────────────────────────────────────
-      if (oldVersion < 2) {
-        // births store
-        if (!db.objectStoreNames.contains('births')) {
-          db.createObjectStore('births', { keyPath: 'id' })
-        }
-        // kv store — arbitrary key→value for reports, per-animal health logs, etc.
-        if (!db.objectStoreNames.contains('kv')) {
-          db.createObjectStore('kv')
-        }
+      if (!db.objectStoreNames.contains('kv')) {
+        db.createObjectStore('kv')
       }
     },
   })
   return _db
 }
-
-// ── Object-store helpers ──────────────────────────────────────────────────────
 
 export async function cacheAll(storeName, items) {
   const db = await getDb()
@@ -68,8 +56,6 @@ export async function deleteCached(storeName, id) {
   await db.delete(storeName, id)
 }
 
-// ── KV store helpers (reports, per-animal health logs, misc) ─────────────────
-
 export async function kvGet(key) {
   const db = await getDb()
   return db.get('kv', key)
@@ -79,8 +65,6 @@ export async function kvSet(key, value) {
   const db = await getDb()
   await db.put('kv', value, key)
 }
-
-// ── Mutation queue ────────────────────────────────────────────────────────────
 
 export async function enqueueMutation(mutation) {
   const db = await getDb()

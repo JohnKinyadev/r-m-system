@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#164e2a"/>
+      <stop offset="0.55" stop-color="#1f7a3a"/>
+      <stop offset="1" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d1fae5" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.62"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#sky)"/>
+  <circle cx="1010" cy="160" r="110" fill="#fbbf24" opacity="0.35"/>
+  <path d="M0 680 C220 610 330 730 520 650 C720 570 830 660 1010 610 C1120 580 1170 590 1200 600 L1200 900 L0 900 Z" fill="#0f3d24" opacity="0.72"/>
+  <g opacity="0.88">
+    <rect x="175" y="250" width="220" height="430" rx="10" fill="#f8fafc"/>
+    <rect x="420" y="190" width="290" height="490" rx="12" fill="#ecfdf5"/>
+    <rect x="735" y="300" width="230" height="380" rx="10" fill="#f8fafc"/>
+    <path d="M175 250 L285 165 L395 250 Z" fill="#14532d"/>
+    <path d="M420 190 L565 95 L710 190 Z" fill="#14532d"/>
+    <path d="M735 300 L850 220 L965 300 Z" fill="#14532d"/>
+  </g>
+  <g fill="url(#glass)" opacity="0.86">
+    <rect x="215" y="300" width="50" height="58" rx="4"/>
+    <rect x="305" y="300" width="50" height="58" rx="4"/>
+    <rect x="215" y="395" width="50" height="58" rx="4"/>
+    <rect x="305" y="395" width="50" height="58" rx="4"/>
+    <rect x="215" y="490" width="50" height="58" rx="4"/>
+    <rect x="305" y="490" width="50" height="58" rx="4"/>
+    <rect x="472" y="250" width="55" height="58" rx="4"/>
+    <rect x="555" y="250" width="55" height="58" rx="4"/>
+    <rect x="638" y="250" width="55" height="58" rx="4"/>
+    <rect x="472" y="350" width="55" height="58" rx="4"/>
+    <rect x="555" y="350" width="55" height="58" rx="4"/>
+    <rect x="638" y="350" width="55" height="58" rx="4"/>
+    <rect x="472" y="450" width="55" height="58" rx="4"/>
+    <rect x="555" y="450" width="55" height="58" rx="4"/>
+    <rect x="638" y="450" width="55" height="58" rx="4"/>
+    <rect x="780" y="360" width="52" height="58" rx="4"/>
+    <rect x="875" y="360" width="52" height="58" rx="4"/>
+    <rect x="780" y="460" width="52" height="58" rx="4"/>
+    <rect x="875" y="460" width="52" height="58" rx="4"/>
+  </g>
+  <rect x="544" y="570" width="75" height="110" rx="4" fill="#14532d"/>
+</svg>

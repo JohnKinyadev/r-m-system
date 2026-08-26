@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'com.farmmanagement.app',
-  appName: 'FarmManager',
+  appId: 'com.rentalmanagement.app',
+  appName: 'RentManager',
   webDir: 'dist',
   server: {
     // For development/testing on device, point to your server IP.

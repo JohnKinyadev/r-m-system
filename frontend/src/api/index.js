@@ -17,35 +17,20 @@ const OFFLINE_CACHE_SENTINEL = '__offline_cache__'
  *  • { test, kvKey, isArray } – read from the KV store using a computed key
  */
 const OFFLINE_GET_MAP = [
-  // ── Animals ──────────────────────────────────────────────────────────────
-  { test: (u) => u === '/api/animals',                    store: 'animals',         single: false },
-  { test: (u) => /^\/api\/animals\/\d+$/.test(u),         store: 'animals',         single: true  },
-
-  // ── Livestock types ───────────────────────────────────────────────────────
-  { test: (u) => u.startsWith('/api/livestock-types'),     store: 'livestock_types', single: false },
-
-  // ── Feed ─────────────────────────────────────────────────────────────────
-  { test: (u) => u.startsWith('/api/feed/types'),          store: 'feed_types',      single: false },
-
-  // ── Mating & births ───────────────────────────────────────────────────────
-  { test: (u) => u === '/api/mating',                      store: 'mating_events',   single: false },
-  { test: (u) => u.startsWith('/api/mating/births'),       store: 'births',          single: false },
-
-  // ── Notifications ─────────────────────────────────────────────────────────
-  { test: (u) => u.startsWith('/api/notifications'),       store: 'notifications',   single: false },
-
-  // ── Health logs per animal (lazy-cached in AnimalDetailView) ─────────────
-  {
-    test:    (u) => /^\/api\/health\/animal\/\d+$/.test(u),
-    kvKey:   (u) => `health_logs_${u.split('/').pop()}`,
-    isArray: true,
-  },
-
-  // ── Reports (cached in refreshCaches) ────────────────────────────────────
-  { test: (u) => u === '/api/reports/dashboard',           kvKey: () => 'reports_dashboard',         isArray: false },
-  { test: (u) => u === '/api/reports/herd-health',         kvKey: () => 'reports_herd_health',       isArray: false },
-  { test: (u) => u === '/api/reports/birth-mortality',     kvKey: () => 'reports_birth_mortality',   isArray: false },
-  { test: (u) => u === '/api/reports/feed-consumption',    kvKey: () => 'reports_feed_consumption',  isArray: true  },
+  { test: (u) => u === '/api/properties', store: 'properties', single: false },
+  { test: (u) => /^\/api\/properties\/\d+$/.test(u), store: 'properties', single: true },
+  { test: (u) => u === '/api/units', store: 'units', single: false },
+  { test: (u) => /^\/api\/units\/\d+$/.test(u), store: 'units', single: true },
+  { test: (u) => u === '/api/tenants', store: 'tenants', single: false },
+  { test: (u) => /^\/api\/tenants\/\d+$/.test(u), store: 'tenants', single: true },
+  { test: (u) => u === '/api/tenancies', store: 'tenancies', single: false },
+  { test: (u) => u === '/api/payments', store: 'payments', single: false },
+  { test: (u) => u === '/api/maintenance', store: 'maintenance', single: false },
+  { test: (u) => u === '/api/expenses', store: 'expenses', single: false },
+  { test: (u) => u.startsWith('/api/notifications'), store: 'notifications', single: false },
+  { test: (u) => u === '/api/reports/dashboard', kvKey: () => 'reports_dashboard', isArray: false },
+  { test: (u) => u === '/api/reports/arrears', kvKey: () => 'reports_arrears', isArray: true },
+  { test: (u) => u === '/api/reports/property-performance', kvKey: () => 'reports_property_performance', isArray: true },
 ]
 
 async function serveFromCache(urlPath) {

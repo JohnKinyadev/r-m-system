@@ -88,7 +88,7 @@ const initials = computed(() => {
 })
 
 const roleLabel = computed(() =>
-  auth.user?.role?.name === 'farm_owner' ? 'Farm Owner' : 'Farm Worker'
+  auth.user?.role?.name === 'landlord' ? 'Landlord' : 'Caretaker'
 )
 
 const memberSince = computed(() => {

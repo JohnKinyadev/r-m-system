@@ -11,7 +11,7 @@ export const useAuthStore = defineStore('auth', () => {
   const user  = ref(null)
 
   const isLoggedIn    = computed(() => !!token.value)
-  const isOwner       = computed(() => user.value?.role?.name === 'farm_owner')
+  const isOwner       = computed(() => user.value?.role?.name === 'landlord')
   // modules the current user may access (owners get everything from the API response)
   const permissions   = computed(() => user.value?.permissions ?? [])
 

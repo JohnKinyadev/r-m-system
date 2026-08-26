@@ -13,19 +13,19 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
-const props = defineProps({ to: String, label: String, color: String, emoji: { type: String, default: '➕' } })
+const props = defineProps({ to: String, label: String, color: String, emoji: { type: String, default: '+' } })
 
 const borderClass = computed(() => ({
-  farm:   'border-farm-300 hover:bg-farm-50',
-  amber:  'border-amber-300 hover:bg-amber-50',
-  blue:   'border-blue-300 hover:bg-blue-50',
+  farm: 'border-farm-300 hover:bg-farm-50',
+  amber: 'border-amber-300 hover:bg-amber-50',
+  blue: 'border-blue-300 hover:bg-blue-50',
   purple: 'border-purple-300 hover:bg-purple-50',
 }[props.color]))
 
 const textClass = computed(() => ({
-  farm:   'text-farm-700',
-  amber:  'text-amber-700',
-  blue:   'text-blue-700',
+  farm: 'text-farm-700',
+  amber: 'text-amber-700',
+  blue: 'text-blue-700',
   purple: 'text-purple-700',
 }[props.color]))
 </script>

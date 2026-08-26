@@ -17,8 +17,8 @@
       class="card flex gap-3 transition-all"
       :class="n.is_read ? 'opacity-70' : 'border-l-4 border-farm-500'"
     >
-      <div class="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center" :class="typeColor(n.type)">
-        <span class="text-sm">{{ typeEmoji(n.type) }}</span>
+      <div class="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" :class="typeColor(n.type)">
+        <span class="text-xs font-bold text-gray-700">{{ typeLabel(n.type) }}</span>
       </div>
       <div class="flex-1 min-w-0">
         <div class="flex items-start justify-between gap-2">
@@ -39,22 +39,26 @@ import BaseButton from '@/components/ui/BaseButton.vue'
 const store = useNotificationStore()
 
 const typeColor = (type) => ({
-  birth_alert:     'bg-green-100',
-  vaccination_due: 'bg-blue-100',
-  feed_stock_low:  'bg-red-100',
-  missed_feeding:  'bg-amber-100',
-  general:         'bg-gray-100',
+  rent_due: 'bg-blue-100',
+  rent_overdue: 'bg-red-100',
+  payment_received: 'bg-green-100',
+  maintenance_update: 'bg-amber-100',
+  lease_expiring: 'bg-purple-100',
+  vacancy: 'bg-gray-100',
+  general: 'bg-gray-100',
 }[type] || 'bg-gray-100')
 
-const typeEmoji = (type) => ({
-  birth_alert:     '🐣',
-  vaccination_due: '💉',
-  feed_stock_low:  '⚠️',
-  missed_feeding:  '📋',
-  general:         '📢',
-}[type] || '📢')
+const typeLabel = (type) => ({
+  rent_due: 'Due',
+  rent_overdue: 'Late',
+  payment_received: 'Paid',
+  maintenance_update: 'Fix',
+  lease_expiring: 'End',
+  vacancy: 'Open',
+  general: 'Info',
+}[type] || 'Info')
 
-const formatDate = (d) => d ? new Date(d).toLocaleDateString() : ''
+const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-KE') : ''
 
 onMounted(() => store.fetch())
 </script>

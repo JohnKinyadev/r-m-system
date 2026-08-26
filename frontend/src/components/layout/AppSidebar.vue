@@ -6,8 +6,8 @@
         <path d="M12 2L2 7l10 5 10-5-10-5zm0 7L2 14l10 5 10-5-10-5z"/>
       </svg>
       <div>
-        <p class="font-bold text-sm leading-tight">FarmManager</p>
-        <p class="text-farm-300 text-xs">Ranch & Livestock</p>
+        <p class="font-bold text-sm leading-tight">RentManager</p>
+        <p class="text-farm-300 text-xs">Landlord Control Center</p>
       </div>
     </div>
 
@@ -24,7 +24,7 @@
         </div>
         <div class="min-w-0">
           <p class="text-sm font-medium truncate">{{ auth.user?.full_name }}</p>
-          <p class="text-xs text-farm-300 truncate">{{ auth.isOwner ? 'Farm Owner' : 'Farm Worker' }}</p>
+          <p class="text-xs text-farm-300 truncate">{{ auth.isOwner ? 'Landlord' : 'Caretaker' }}</p>
         </div>
       </div>
       <button @click="auth.logout()" class="w-full text-left text-xs text-farm-300 hover:text-white transition-colors py-1">
@@ -49,19 +49,21 @@ const initials = computed(() => {
 })
 
 const ALL_LINKS = [
-  { to: '/dashboard',       icon: 'grid',       label: 'Dashboard',        module: null },
-  { to: '/animals',         icon: 'paw',        label: 'Animals',          module: 'animals' },
-  { to: '/livestock-types', icon: 'tag',        label: 'Livestock Types',  module: 'livestock_types' },
-  { to: '/feed',            icon: 'box',        label: 'Feed',             module: 'feed' },
-  { to: '/health',          icon: 'heart',      label: 'Health',           module: 'health' },
-  { to: '/mating',          icon: 'link',       label: 'Mating & Births',  module: 'mating' },
-  { to: '/reports',         icon: 'bar-chart',  label: 'Reports',          module: 'reports' },
-  { to: '/notifications',   icon: 'bell',       label: 'Notifications',    module: null, badge: notifStore.unreadCount },
+  { to: '/dashboard',     icon: 'grid',      label: 'Dashboard',     module: null },
+  { to: '/properties',    icon: 'building',  label: 'Properties',    module: 'properties' },
+  { to: '/units',         icon: 'home',      label: 'Units',         module: 'units' },
+  { to: '/tenants',       icon: 'users',     label: 'Tenants',       module: 'tenants' },
+  { to: '/rent',          icon: 'receipt',   label: 'Rent Ledger',   module: 'rent' },
+  { to: '/payments',      icon: 'money',     label: 'Payments',      module: 'payments' },
+  { to: '/maintenance',   icon: 'wrench',    label: 'Maintenance',   module: 'maintenance' },
+  { to: '/expenses',      icon: 'box',       label: 'Expenses',      module: 'expenses' },
+  { to: '/reports',       icon: 'bar-chart', label: 'Reports',       module: 'reports' },
+  { to: '/notifications', icon: 'bell',      label: 'Notifications', module: null, badge: notifStore.unreadCount },
 ]
 
 const navLinks = computed(() => {
   const links = ALL_LINKS.filter(l => !l.module || auth.hasModule(l.module))
-  if (auth.isOwner) links.push({ to: '/workers', icon: 'users', label: 'Workers', module: null })
+  if (auth.isOwner) links.push({ to: '/caretakers', icon: 'users', label: 'Caretakers', module: null })
   links.push({ to: '/profile', icon: 'user', label: 'My Profile', module: null })
   return links
 })

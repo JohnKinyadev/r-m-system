@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden"
-       style="background: url('/images/farm-bg.svg') center/cover no-repeat, #1a5c2a">
+       style="background: url('/images/rental-bg.svg') center/cover no-repeat, #1a5c2a">
     <div class="absolute inset-0 bg-black/50 pointer-events-none" />
 
     <div class="relative z-10 w-full max-w-sm">
@@ -11,8 +11,8 @@
             <path d="M12 2L2 7l10 5 10-5-10-5zm0 7L2 14l10 5 10-5-10-5z"/>
           </svg>
         </div>
-        <h1 class="text-2xl font-bold text-white">FarmManager</h1>
-        <p class="text-farm-300 text-sm mt-1">Ranch & Livestock Edition</p>
+        <h1 class="text-2xl font-bold text-white">RentManager</h1>
+        <p class="text-farm-300 text-sm mt-1">Landlord Control Center</p>
       </div>
 
       <!-- Offline banner — shown above the form when there's no connection -->
@@ -31,7 +31,7 @@
 
       <!-- Form card -->
       <div class="bg-white rounded-2xl shadow-xl p-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-5">Sign in to your farm</h2>
+        <h2 class="text-lg font-semibold text-gray-800 mb-5">Sign in to your rental business</h2>
 
         <BaseAlert :message="error" type="error" class="mb-4" />
 
@@ -40,7 +40,7 @@
             v-model="form.email"
             label="Email"
             type="email"
-            placeholder="owner@farm.local"
+            placeholder="admin@rental.co.ke"
             required
             :disabled="!isOnline"
           />
