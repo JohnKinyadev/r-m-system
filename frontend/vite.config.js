@@ -3,7 +3,11 @@ import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 import { fileURLToPath, URL } from 'node:url'
 
+const basePath = process.env.VITE_BASE_PATH || '/'
+const withBase = (path) => `${basePath}${path}`.replace(/\/{2,}/g, '/')
+
 export default defineConfig({
+  base: basePath,
   plugins: [
     vue(),
     VitePWA({
@@ -15,11 +19,11 @@ export default defineConfig({
         theme_color: '#1a5c2a',
         background_color: '#f9fafb',
         display: 'standalone',
-        start_url: '/dashboard',
-        scope: '/',
+        start_url: withBase('dashboard'),
+        scope: basePath,
         icons: [
-          { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+          { src: withBase('icons/icon-192.png'), sizes: '192x192', type: 'image/png' },
+          { src: withBase('icons/icon-512.png'), sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
         ],
       },
       workbox: {
