@@ -1,0 +1,31 @@
+# Environment
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+*.egg
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+
+# Capacitor native projects (add to git only when ready to maintain them)
+frontend/android/
+frontend/ios/
+
+# Docker volumes
+postgres_data/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store

@@ -1,0 +1,249 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d0221"/>
+      <stop offset="28%" stop-color="#1a0a3a"/>
+      <stop offset="58%" stop-color="#7b2d00"/>
+      <stop offset="78%" stop-color="#d45010"/>
+      <stop offset="100%" stop-color="#f08020"/>
+    </linearGradient>
+    <radialGradient id="hglow" cx="50%" cy="100%" r="60%">
+      <stop offset="0%" stop-color="#ff9500" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#ff9500" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1440" height="900" fill="url(#sky)"/>
+  <rect width="1440" height="900" fill="url(#hglow)"/>
+
+  <!-- Stars -->
+  <g fill="white">
+    <circle cx="72"  cy="45"  r="1.5" opacity="0.85"/>
+    <circle cx="145" cy="28"  r="1"   opacity="0.70"/>
+    <circle cx="218" cy="62"  r="1.5" opacity="0.80"/>
+    <circle cx="302" cy="18"  r="1"   opacity="0.60"/>
+    <circle cx="378" cy="55"  r="2"   opacity="0.75"/>
+    <circle cx="445" cy="30"  r="1"   opacity="0.65"/>
+    <circle cx="525" cy="72"  r="1.5" opacity="0.80"/>
+    <circle cx="612" cy="15"  r="1"   opacity="0.70"/>
+    <circle cx="698" cy="50"  r="1.5" opacity="0.85"/>
+    <circle cx="775" cy="25"  r="1"   opacity="0.60"/>
+    <circle cx="862" cy="40"  r="2"   opacity="0.75"/>
+    <circle cx="935" cy="18"  r="1"   opacity="0.65"/>
+    <circle cx="110" cy="130" r="1"   opacity="0.55"/>
+    <circle cx="280" cy="110" r="1.5" opacity="0.60"/>
+    <circle cx="460" cy="140" r="1"   opacity="0.50"/>
+    <circle cx="640" cy="120" r="1.5" opacity="0.55"/>
+    <circle cx="820" cy="100" r="1"   opacity="0.50"/>
+    <circle cx="1015" cy="62" r="1.5" opacity="0.80"/>
+    <circle cx="1102" cy="35" r="1"   opacity="0.65"/>
+    <circle cx="1178" cy="58" r="1.5" opacity="0.75"/>
+    <circle cx="1265" cy="22" r="1"   opacity="0.60"/>
+    <circle cx="1345" cy="48" r="2"   opacity="0.70"/>
+    <circle cx="1000" cy="130" r="1.5" opacity="0.55"/>
+    <circle cx="1200" cy="115" r="1"   opacity="0.50"/>
+  </g>
+
+  <!-- Crescent Moon -->
+  <circle cx="1185" cy="108" r="58" fill="#fef9d9" opacity="0.95"/>
+  <circle cx="1205" cy="95"  r="50" fill="#1a0a3a" opacity="0.93"/>
+
+  <!-- Far background hills -->
+  <path d="M0 520 C100 475,220 455,390 495 C560 535,660 472,840 482
+           C1020 492,1130 455,1290 475 C1390 490,1430 465,1440 458
+           L1440 900 L0 900 Z" fill="#243042" opacity="0.88"/>
+
+  <!-- Middle hills -->
+  <path d="M0 578 C130 542,268 558,430 572 C592 586,710 540,880 550
+           C1050 560,1160 528,1310 554 C1400 568,1435 550,1440 542
+           L1440 900 L0 900 Z" fill="#1a3020"/>
+
+  <!-- Foreground ground -->
+  <path d="M0 652 C160 634,320 644,480 638 C640 632,800 622,960 636
+           C1120 650,1280 632,1400 638 L1440 635 L1440 900 L0 900 Z"
+        fill="#122010"/>
+
+  <!-- Ground base -->
+  <rect x="0" y="710" width="1440" height="190" fill="#0e1a0c"/>
+
+  <!-- ── TREES (left cluster) ── -->
+  <!-- Tree 1 - tallest -->
+  <rect x="46" y="525" width="17" height="135" rx="3" fill="#0a140a"/>
+  <ellipse cx="54" cy="512" rx="58" ry="65" fill="#0a140a"/>
+  <ellipse cx="54" cy="480" rx="42" ry="48" fill="#0d1a0d"/>
+  <!-- Tree 2 -->
+  <rect x="138" y="542" width="14" height="118" rx="3" fill="#0a140a"/>
+  <ellipse cx="145" cy="530" rx="48" ry="56" fill="#0a140a"/>
+  <ellipse cx="145" cy="502" rx="34" ry="40" fill="#0d1a0d"/>
+  <!-- Tree 3 -->
+  <rect x="215" y="558" width="12" height="102" rx="3" fill="#0a140a"/>
+  <ellipse cx="221" cy="547" rx="40" ry="48" fill="#0a140a"/>
+  <!-- Small bush -->
+  <rect x="278" y="585" width="10" height="75" rx="3" fill="#0a140a"/>
+  <ellipse cx="283" cy="576" rx="30" ry="37" fill="#0a140a"/>
+
+  <!-- ── BARN (right side) ── -->
+  <!-- Main body -->
+  <rect x="1055" y="498" width="228" height="195" rx="2" fill="#0a140a"/>
+  <!-- Gabled roof -->
+  <polygon points="1032,498 1169,398 1306,498" fill="#07100a"/>
+  <!-- Loft window (arch) -->
+  <ellipse cx="1169" cy="450" rx="24" ry="16" fill="#07100a"/>
+  <!-- Side windows -->
+  <rect x="1070" y="528" width="40" height="32" rx="3" fill="#07100a"/>
+  <rect x="1225" y="528" width="40" height="32" rx="3" fill="#07100a"/>
+  <!-- Large double door -->
+  <rect x="1118" y="588" width="84" height="105" rx="4" fill="#07100a"/>
+  <!-- Door divider -->
+  <line x1="1160" y1="588" x2="1160" y2="693" stroke="#0a140a" stroke-width="3"/>
+
+  <!-- ── SILO ── -->
+  <rect x="1300" y="432" width="62" height="262" rx="3" fill="#0a140a"/>
+  <ellipse cx="1331" cy="435" rx="31" ry="21" fill="#07100a"/>
+  <line x1="1300" y1="485" x2="1362" y2="485" stroke="#07100a" stroke-width="3" opacity="0.5"/>
+  <line x1="1300" y1="535" x2="1362" y2="535" stroke="#07100a" stroke-width="3" opacity="0.5"/>
+  <line x1="1300" y1="585" x2="1362" y2="585" stroke="#07100a" stroke-width="3" opacity="0.5"/>
+
+  <!-- ── FENCE ── -->
+  <rect x="328" y="642" width="892" height="7" rx="3" fill="#1c3218"/>
+  <rect x="328" y="665" width="892" height="5" rx="2" fill="#182c15"/>
+  <g fill="#152a12">
+    <rect x="328" y="630" width="10" height="52" rx="2"/>
+    <rect x="418" y="630" width="10" height="52" rx="2"/>
+    <rect x="508" y="630" width="10" height="52" rx="2"/>
+    <rect x="598" y="630" width="10" height="52" rx="2"/>
+    <rect x="688" y="630" width="10" height="52" rx="2"/>
+    <rect x="778" y="630" width="10" height="52" rx="2"/>
+    <rect x="868" y="630" width="10" height="52" rx="2"/>
+    <rect x="958" y="630" width="10" height="52" rx="2"/>
+    <rect x="1048" y="630" width="10" height="52" rx="2"/>
+    <rect x="1138" y="630" width="10" height="52" rx="2"/>
+    <rect x="1210" y="630" width="10" height="52" rx="2"/>
+  </g>
+
+  <!-- ── ANIMALS ── -->
+
+  <!-- ROOSTER (left, x≈368) ground at y≈642 -->
+  <g fill="#0a140a" transform="translate(358,568)">
+    <ellipse cx="22" cy="42" rx="19" ry="23"/>
+    <circle cx="38" cy="18" r="13"/>
+    <polygon points="32,30 36,5 45,7 43,30"/>
+    <!-- Comb -->
+    <path d="M30,9 Q32,1 35,4 Q37,-3 40,3 Q43,-1 45,6" fill="#0a140a"/>
+    <!-- Beak -->
+    <polygon points="50,18 58,15 50,22"/>
+    <!-- Tail feathers -->
+    <path d="M4,36 Q-10,20 -6,8"  stroke="#0a140a" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M4,44 Q-12,30 -9,16" stroke="#0a140a" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M3,52 Q-8,40 -5,28"  stroke="#0a140a" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <!-- Legs -->
+    <line x1="16" y1="63" x2="9"  y2="78" stroke="#0a140a" stroke-width="4" stroke-linecap="round"/>
+    <line x1="26" y1="63" x2="28" y2="78" stroke="#0a140a" stroke-width="4" stroke-linecap="round"/>
+    <line x1="9"  y1="78" x2="2"  y2="82" stroke="#0a140a" stroke-width="3" stroke-linecap="round"/>
+    <line x1="9"  y1="78" x2="11" y2="82" stroke="#0a140a" stroke-width="3" stroke-linecap="round"/>
+    <line x1="28" y1="78" x2="22" y2="82" stroke="#0a140a" stroke-width="3" stroke-linecap="round"/>
+    <line x1="28" y1="78" x2="32" y2="82" stroke="#0a140a" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- HEN (smaller, beside rooster, x≈435) -->
+  <g fill="#0a140a" transform="translate(432,592) scale(0.72)">
+    <ellipse cx="22" cy="42" rx="19" ry="23"/>
+    <circle cx="38" cy="18" r="13"/>
+    <polygon points="32,30 36,5 45,7 43,30"/>
+    <polygon points="50,18 58,15 50,22"/>
+    <path d="M4,36 Q-10,20 -6,8"  stroke="#0a140a" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M4,46 Q-12,34 -8,20" stroke="#0a140a" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <line x1="16" y1="63" x2="9"  y2="78" stroke="#0a140a" stroke-width="4" stroke-linecap="round"/>
+    <line x1="26" y1="63" x2="28" y2="78" stroke="#0a140a" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- COW (center, x≈530) ground at y≈642, height≈148 so top≈494 -->
+  <g fill="#0a140a" transform="translate(510,494)">
+    <!-- Body -->
+    <ellipse cx="70" cy="70" rx="88" ry="54"/>
+    <!-- Neck -->
+    <polygon points="126,58 145,28 164,22 160,54"/>
+    <!-- Head -->
+    <ellipse cx="165" cy="30" rx="38" ry="30"/>
+    <!-- Muzzle -->
+    <ellipse cx="196" cy="38" rx="17" ry="12"/>
+    <!-- Left horn -->
+    <path d="M154,12 Q145,-8 158,-14" stroke="#0a140a" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <!-- Right horn -->
+    <path d="M176,9  Q184,-9 178,-16" stroke="#0a140a" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <!-- Ear -->
+    <ellipse cx="144" cy="20" rx="11" ry="8" transform="rotate(-28,144,20)"/>
+    <!-- Legs front -->
+    <rect x="128" y="118" width="16" height="58" rx="4"/>
+    <rect x="150" y="118" width="16" height="58" rx="4"/>
+    <!-- Legs back -->
+    <rect x="28" y="118" width="16" height="58" rx="4"/>
+    <rect x="50" y="118" width="16" height="58" rx="4"/>
+    <!-- Tail -->
+    <path d="M-16,65 Q-42,44 -36,18 Q-30,6 -20,16" stroke="#0a140a" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <ellipse cx="-22" cy="15" rx="10" ry="8" transform="rotate(-18,-22,15)"/>
+    <!-- Udder -->
+    <ellipse cx="65" cy="122" rx="22" ry="11"/>
+  </g>
+
+  <!-- GOAT (center-right, x≈778) ground at y≈642, height≈140 so top≈502 -->
+  <g fill="#0a140a" transform="translate(762,505)">
+    <!-- Body -->
+    <ellipse cx="54" cy="56" rx="66" ry="44"/>
+    <!-- Neck -->
+    <polygon points="96,50 114,22 130,18 127,46"/>
+    <!-- Head -->
+    <ellipse cx="130" cy="24" rx="28" ry="22"/>
+    <!-- Beard -->
+    <ellipse cx="148" cy="46" rx="7" ry="13" transform="rotate(8,148,46)"/>
+    <!-- Horns curved back -->
+    <path d="M118,10 Q108,-10 120,-18 Q132,-18 128,-4" stroke="#0a140a" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M136,8  Q140,-12 150,-16 Q162,-12 156,-2" stroke="#0a140a" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <!-- Ear -->
+    <path d="M112,20 Q96,8 100,24" fill="#0a140a"/>
+    <!-- Legs -->
+    <rect x="22" y="95"  width="12" height="52" rx="3"/>
+    <rect x="42" y="95"  width="12" height="52" rx="3"/>
+    <rect x="74" y="95"  width="12" height="52" rx="3"/>
+    <rect x="92" y="95"  width="12" height="52" rx="3"/>
+    <!-- Tail upright -->
+    <path d="M-8,46 Q-22,30 -16,14" stroke="#0a140a" stroke-width="7" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- PIG (right, x≈948) ground at y≈642, height≈120 so top≈522 -->
+  <g fill="#0a140a" transform="translate(934,524)">
+    <!-- Body (very round) -->
+    <ellipse cx="52" cy="52" rx="64" ry="50"/>
+    <!-- Head -->
+    <circle cx="107" cy="42" r="34"/>
+    <!-- Snout -->
+    <ellipse cx="135" cy="48" rx="18" ry="14"/>
+    <!-- Nostrils -->
+    <circle cx="130" cy="45" r="5" fill="#07100a"/>
+    <circle cx="140" cy="49" r="5" fill="#07100a"/>
+    <!-- Ears -->
+    <path d="M88,16  Q72,-2 84,12"  fill="#0a140a"/>
+    <path d="M110,12 Q116,-6 124,8" fill="#0a140a"/>
+    <!-- Legs short -->
+    <rect x="10" y="96"  width="15" height="32" rx="6"/>
+    <rect x="32" y="96"  width="15" height="32" rx="6"/>
+    <rect x="62" y="96"  width="15" height="32" rx="6"/>
+    <rect x="84" y="96"  width="15" height="32" rx="6"/>
+    <!-- Curly tail -->
+    <path d="M-10,46 Q-26,34 -24,18 Q-20,8 -12,14" stroke="#0a140a" stroke-width="7" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Foreground grass tufts -->
+  <g stroke="#0d1a0d" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.8">
+    <path d="M85,718 Q88,706 91,718"/>  <path d="M92,715 Q96,702 100,715"/>
+    <path d="M205,720 Q208,708 211,720"/> <path d="M212,717 Q216,704 220,717"/>
+    <path d="M345,716 Q348,704 351,716"/>
+    <path d="M530,718 Q533,706 536,718"/> <path d="M537,715 Q542,701 546,715"/>
+    <path d="M720,720 Q723,708 726,720"/>
+    <path d="M910,717 Q914,705 917,717"/>
+    <path d="M1105,719 Q1108,707 1111,719"/>
+    <path d="M1300,716 Q1303,704 1306,716"/>
+    <path d="M1420,719 Q1423,707 1426,719"/>
+  </g>
+</svg>
