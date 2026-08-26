@@ -1,14 +1,16 @@
 from logging.config import fileConfig
-from sqlalchemy import engine_from_config, pool
-from alembic import context
 import os
 import sys
 
-# Make sure the app package is importable
+from alembic import context
+from sqlalchemy import engine_from_config, pool
+from sqlalchemy.engine import URL
+
+# Make sure the app package is importable.
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from app.db.base import Base
-import app.db.models  # noqa: F401 — registers all models so autogenerate sees them
+import app.db.models  # noqa: F401
 
 config = context.config
 
@@ -17,10 +19,21 @@ if config.config_file_name is not None:
 
 target_metadata = Base.metadata
 
-# Override sqlalchemy.url with the runtime DATABASE_URL env var
-database_url = os.environ.get("DATABASE_URL")
-if database_url:
-    config.set_main_option("sqlalchemy.url", database_url)
+
+def database_url() -> str:
+    if os.environ.get("DATABASE_URL"):
+        return os.environ["DATABASE_URL"]
+    return URL.create(
+        "postgresql+psycopg2",
+        username=os.environ.get("POSTGRES_USER", "rms_admin"),
+        password=os.environ.get("POSTGRES_PASSWORD", ""),
+        host=os.environ.get("POSTGRES_HOST", "db"),
+        port=int(os.environ.get("POSTGRES_PORT", "5432")),
+        database=os.environ.get("POSTGRES_DB", "r-m-system"),
+    ).render_as_string(hide_password=False)
+
+
+config.set_main_option("sqlalchemy.url", database_url())
 
 
 def run_migrations_offline() -> None:
