@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: r-m-system-api
+    runtime: python
+    plan: free
+    region: oregon
+    rootDir: backend
+    buildCommand: pip install --upgrade pip && pip install --default-timeout=180 --retries 10 -r requirements.txt
+    startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health-check
+    autoDeployTrigger: commit
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: r-m-system-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "10080"
+      - key: BACKEND_CORS_ORIGINS
+        value: https://johnkinyadev.github.io,http://localhost:5176,http://127.0.0.1:5176
+      - key: ANDROID_PACKAGE_NAME
+        value: com.rentalmanagement.app
+      - key: ANDROID_SHA256_CERT
+        value: AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99
+
+databases:
+  - name: r-m-system-db
+    plan: free
+    region: oregon
+    databaseName: r_m_system
+    user: rms_admin
+    postgresMajorVersion: "16"
