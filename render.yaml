@@ -11,9 +11,8 @@ services:
     name: r-m-system-api
     runtime: python
     plan: free
-    rootDir: backend
     buildCommand: pip install --upgrade pip && pip install --default-timeout=180 --retries 10 -r requirements.txt
-    startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    startCommand: cd backend && alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /api/health-check
     envVars:
       - key: PYTHON_VERSION

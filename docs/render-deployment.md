@@ -20,7 +20,7 @@ The GitHub Pages frontend calls the Render API.
    - `r-m-system-db` PostgreSQL database
 6. Click `Apply`.
 
-The API start command runs `alembic upgrade head` before launching Uvicorn. This keeps migrations working on Render's free web service plan.
+The API start command changes into `backend`, runs `alembic upgrade head`, then launches Uvicorn. This keeps migrations working on Render's free web service plan and makes the `app` package importable.
 
 ## GitHub Pages API URL
 
@@ -50,9 +50,9 @@ If the Render Dashboard shows `api.render.com/graphql` errors, that error is fro
 If Blueprint creation still fails, create the services manually with these values:
 
 - PostgreSQL database name: `r-m-system-db`
-- Web service root directory: `backend`
+- Web service root directory: leave blank
 - Build command: `pip install --upgrade pip && pip install --default-timeout=180 --retries 10 -r requirements.txt`
-- Start command: `alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+- Start command: `cd backend && alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 - Health check path: `/api/health-check`
 - Environment variable `PYTHON_VERSION`: `3.12.11`
 - Environment variable `DATABASE_URL`: use the internal connection string from the Render Postgres database
