@@ -54,6 +54,7 @@ If Blueprint creation still fails, create the services manually with these value
 - Build command: `pip install --upgrade pip && pip install --default-timeout=180 --retries 10 -r requirements.txt`
 - Start command: `alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 - Health check path: `/api/health-check`
+- Environment variable `PYTHON_VERSION`: `3.12.11`
 - Environment variable `DATABASE_URL`: use the internal connection string from the Render Postgres database
 - Environment variable `SECRET_KEY`: generate a long random value
 - Environment variable `ALGORITHM`: `HS256`
