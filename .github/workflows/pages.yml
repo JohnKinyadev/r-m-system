@@ -37,7 +37,7 @@ jobs:
         working-directory: frontend
         env:
           VITE_BASE_PATH: /r-m-system/
-          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL || 'https://r-m-system-api.onrender.com' }}
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL || 'https://r-m-system.onrender.com' }}
         run: npm run build
 
       - name: Add SPA Fallback

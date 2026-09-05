@@ -8,7 +8,7 @@ databases:
 
 services:
   - type: web
-    name: r-m-system-api
+    name: r-m-system
     runtime: python
     plan: free
     buildCommand: pip install --upgrade pip && pip install --default-timeout=180 --retries 10 -r requirements.txt

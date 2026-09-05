@@ -6,8 +6,8 @@ The GitHub Pages frontend calls the Render API.
 ## Expected URLs
 
 - Frontend: `https://johnkinyadev.github.io/r-m-system/`
-- Backend API: `https://r-m-system-api.onrender.com`
-- Backend health check: `https://r-m-system-api.onrender.com/api/health-check`
+- Backend API: `https://r-m-system.onrender.com`
+- Backend health check: `https://r-m-system.onrender.com/api/health-check`
 
 ## Render Setup
 
@@ -16,7 +16,7 @@ The GitHub Pages frontend calls the Render API.
 3. Select the `JohnKinyadev/r-m-system` repository.
 4. Select branch `main`.
 5. Render will read `render.yaml` and create:
-   - `r-m-system-api` Python web service
+   - `r-m-system` Python web service
    - `r-m-system-db` PostgreSQL database
 6. Click `Apply`.
 
@@ -27,7 +27,7 @@ The API start command changes into `backend`, runs `alembic upgrade head`, then 
 The frontend build defaults to:
 
 ```text
-VITE_API_BASE_URL=https://r-m-system-api.onrender.com
+VITE_API_BASE_URL=https://r-m-system.onrender.com
 ```
 
 If Render gives the backend a different URL, set this GitHub repository variable:

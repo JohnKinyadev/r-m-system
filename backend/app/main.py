@@ -98,6 +98,16 @@ def health_check():
     return {"status": "ok"}
 
 
+@app.get("/")
+def root():
+    return {
+        "name": "Rental Management System API",
+        "status": "ok",
+        "health_check": "/api/health-check",
+        "docs": "/docs",
+    }
+
+
 @app.get("/.well-known/assetlinks.json")
 def asset_links():
     """Digital Asset Links for Play Store TWA verification."""
